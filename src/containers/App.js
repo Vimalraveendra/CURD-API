@@ -18,12 +18,23 @@ class App extends React.Component{
   }
  
   // adding new category list
-  addUserCategory=(user)=>{
-    if(!user.id){
-    user.id=this.state.userData.length+1
-    }
-    let newData=[...this.state.userData,user]
-    this.setState({userData:newData})
+  addUserCategory=(user)=>{ 
+  const newList = [...this.state.userData]
+
+  if(!user.id){
+  user.id =newList.length+1;
+  }
+    
+  for(let data of newList){
+  if(data.name ===user.name || data.description===user.description){
+    return true
+  }
+  this.setState({user:{id:null,name:'',description:''}})
+}
+
+if(true) {
+this.setState({userData:[...newList,user],user:{id:null,name:'',description:''}})
+}
   }
 
   // Deleting category list based on id
@@ -32,6 +43,7 @@ class App extends React.Component{
     this.setState({userData:newList}) 
   }
 
+  // dynamically handling input events 
   handleChange=(event)=>{
     const {name,value} = event.target;
     const newUser= {...this.state.user,[name]:value};
@@ -39,13 +51,13 @@ class App extends React.Component{
 
 }
 
-
-handleCancel=(e)=>{
-  e.preventDefault();
-  this.state({editData:!this.state.editData})
+// handling when user cancel the edit category
+handleCancel=(data)=>{
+  this.addUserCategory(data)
+  this.setState({editData:false})    
 }
 
-
+// handling edit category
   editUser=id=>{
     let newList =this.state.userData.filter(user=>user.id!==id)
     const selectedItem = this.state.userData.find(item=>item.id === id)
@@ -57,6 +69,16 @@ handleCancel=(e)=>{
     
   }
 
+//  async componentDidMount(){
+//    try{
+//     const response = await fetch(`https://cors-anywhere.herokuapp.com/https://kjosk-sample-api.azurewebsites.net/api/FoundationCategory`);
+//     const data = await response.json();
+//     console.log('data',data)
+//      this.setState({userData:data})
+//    }catch(error){
+//      console.log("something went wrong!!!")
+//    }
+//  }
 
   render(){ 
     return (
@@ -67,13 +89,26 @@ handleCancel=(e)=>{
           {this.state.editData?( 
               <div>
               <h2>Edit Category</h2>
-                <CategoryForm addUserCategory={this.addUserCategory} handleChange={this.handleChange} user={this.state.user} editData={this.state.editData}/>
+                <CategoryForm
+                 addUserCategory={this.addUserCategory} 
+                 handleChange={this.handleChange}
+                  user={this.state.user} 
+                  editData={this.state.editData} 
+                  handleCancel={this.handleCancel} 
+                 
+                  />
                 </div>
                 ):
                 (
                   <div>
                   <h2>Add Category</h2>
-                  <CategoryForm addUserCategory={this.addUserCategory} handleChange={this.handleChange} user={this.state.user} handleCancel />
+                  <CategoryForm 
+                  addUserCategory={this.addUserCategory} 
+                  handleChange={this.handleChange} 
+                  user={this.state.user}
+                  userData={this.state.userData}
+                   />
+                  
                   </div>
                   )
           }
