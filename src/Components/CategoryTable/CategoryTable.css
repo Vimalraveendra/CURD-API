@@ -1,0 +1,11 @@
+.edit {
+  padding: 0 4rem;
+  background-color: green;
+  color: #fff;
+  /* border: none; */
+}
+.delete {
+  background-color: red;
+  color: #fff;
+  /* border: none; */
+}
