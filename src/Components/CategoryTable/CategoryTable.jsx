@@ -1,7 +1,7 @@
 import React from 'react';
 import './CategoryTable.css'
-const CategoryTable = ({userData}) => {
-   
+const CategoryTable = ({userData,deleteUser,editUser}) => {
+    
     return (
         <table>
             <thead>
@@ -21,8 +21,8 @@ const CategoryTable = ({userData}) => {
                                 <td>{name}</td>
                                 <td>{description}</td>
                                 <td>
-                                    <button className="delete">Delete</button>
-                                    <button className="edit">Edit</button>
+                                    <button className="delete" onClick={()=>deleteUser(id)}>Delete</button>
+                                    <button className="edit" onClick={()=>editUser(id)}>Edit</button>
                                 </td>
                             </tr>
                         )

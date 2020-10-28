@@ -6,6 +6,10 @@
 }
 h1 {
   text-align: center;
+  margin-top: 1rem;
+}
+h2 {
+  font-size: 3rem;
 }
 
 /* .App-logo {
