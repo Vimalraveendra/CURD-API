@@ -1,6 +1,6 @@
 import React from 'react';
 
-const CategoryForm = ({addUserCategory,handleChange,user,editData,handleCancel}) => {
+const CategoryForm = ({addUserCategory,handleChange,user,editData,handleCancel,userData}) => {
    
     
     // const initialUser = {id: null, name: '', description: ''};
@@ -11,6 +11,14 @@ const CategoryForm = ({addUserCategory,handleChange,user,editData,handleCancel})
     //     const {name,value} = event.target;
     //     setUser({...user,[name]:value})
     // }
+
+    // const [editData,setEditData] = useState(false)
+
+    // const handleCancel =()=>{
+    //     setState
+    // }
+
+ 
 
     const handleSubmit=(e)=>{
         e.preventDefault();
@@ -29,7 +37,7 @@ const CategoryForm = ({addUserCategory,handleChange,user,editData,handleCancel})
             {editData?(
             <div>
             <button className="button-primary" type="submit"  onClick={handleSubmit}>Edit User</button>
-            <button className="edit" type="submit" onClick={handleCancel} >cancel</button>
+            <button className="edit" type="button" onClick={()=>handleCancel(user)} >cancel</button>
             </div>
             ):(
                 <button className="button-primary" type="submit" onClick={handleSubmit}>Add User</button>
