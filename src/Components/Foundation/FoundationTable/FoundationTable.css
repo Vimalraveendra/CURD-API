@@ -1,0 +1,15 @@
+.edit {
+  color: green;
+  border: none;
+  padding: 0;
+  margin-right: 2rem;
+}
+.delete {
+  color: red;
+  padding: 0;
+  border: none;
+}
+.delete i,
+.edit i {
+  font-size: 1.7rem;
+}

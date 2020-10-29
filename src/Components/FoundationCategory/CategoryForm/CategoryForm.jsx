@@ -18,7 +18,6 @@ const CategoryForm = ({addUserCategory,handleChange,user,editData,handleCancel})
     //     setState
     // }
 
- 
 
     const handleSubmit=(e)=>{
         e.preventDefault();
@@ -31,7 +30,7 @@ const CategoryForm = ({addUserCategory,handleChange,user,editData,handleCancel})
     return (
         <form>
             <label>Name</label>
-            <input className="u-full-width" type="text" name="name" value={user.name} onChange={handleChange}/>
+            <input className="u-full-width" type="text" name="name" value={user.name} onChange={handleChange} />
             <label>Description</label>
             <input className="u-full-width" type="text" name="description" value={user.description} onChange={handleChange}/>
             {editData?(
