@@ -32,14 +32,14 @@ class App extends React.Component{
   }
     
   for(let data of newList){
-  if(data.name ===user.name || data.description===user.description){
+  if(data.name ===user.name){
     this.setState({isPopup:true})
     return true
   }
   
 }
 
-if(user.name.length>=3&&user.name.length<=128){
+if(user.name.length>=3&&user.name.length<=128&&user.description.length<=512){
 this.setState({userData:[...newList,user],user:{id:null,name:'',description:''},editData:false})
 }
   }
@@ -112,7 +112,7 @@ handleCancel=(data)=>{
     return (
       <div className="container">
       <h1> CRUD APP</h1>
-      <button onClick={this.showCategory}>Foundation Category</button>
+      <button className="foundation" onClick={this.showCategory}>Foundation Category</button>
       {this.state.showComp?
       <div>
       <h2 className='title'>Foundation Category List</h2>
@@ -167,8 +167,7 @@ handleCancel=(data)=>{
     </div>:null
       }
       
-      <h2 className='title'>Foundation List</h2>
-    
+      
       <div className="row"><FoundationHome/></div>
       
      

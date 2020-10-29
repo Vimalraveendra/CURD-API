@@ -25,7 +25,6 @@ const FoundationTable = ({userData,deleteUser,editUser}) => {
                                 <td>{htmlDescription}</td>
                                 <td>{foundationCategoryId}</td>
                                 <td>
-
                                     <button className="edit" onClick={()=>editUser(id)}><i className="far fa-edit"></i></button>
                                     <button className="delete" onClick={()=>deleteUser(id)}><i className="far fa-trash-alt"></i></button>
                                 </td>

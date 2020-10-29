@@ -6,7 +6,7 @@ import FoundationTable from '../FoundationTable/FoundationTable'
 
 class FoundationHome extends React.Component{
   state={
-    foundationData:[],
+    dataList:[],
     editData:false,
     isLoading:false,
     isPopup:false,
@@ -14,37 +14,44 @@ class FoundationHome extends React.Component{
     user:{
       id:null,
       name:'',
-      description:'',
-      html:'',
-      categoryId:null
+      shortDescription:'',
+      htmlDescription:'',
+      foundationCategoryId:'', 
+      isGlobal: false,
     }
   }
  
   // adding new category list
   addUserCategory=(user)=>{ 
-  const newList = [...this.state.userData]
-
+     
+  const newList = [...this.state.dataList]
+  let id = [Math.max(...newList.map(num=>num.id))]
+  user.isGlobal=true;
+  user.foundationCategoryId= Number(user.foundationCategoryId)
   if(!user.id){
-  user.id =newList.length+1;
+  user.id =id[0]+1;
+
   }
-    
+  
+   
   for(let data of newList){
-  if(data.name ===user.name || data.description===user.description){
+  if(data.name ===user.name){
     this.setState({isPopup:true})
     return true
   }
   
 }
 
-if(user.name.length>=3&&user.name.length<=128){
-this.setState({userData:[...newList,user],user:{id:null,name:'',description:''},editData:false})
+if(user.name.length>=3&&user.name.length<=128&&user.shortDescription.length<=512){
+this.setState({dataList:[...newList,user],user:{id:null,name:'',shortDescription:'',htmlDescription:'',
+foundationCategoryId:'',isGlobal:false},editData:false})
 }
   }
 
   // Deleting category list based on id
   deleteUser=id=>{
-    let newList =this.state.userData.filter(user=>user.id!==id);
-    this.setState({userData:newList}) 
+    let newList =this.state.dataList.filter(user=>user.id!==id);
+    this.setState({dataList:newList}) 
   }
 
   // dynamically handling input events 
@@ -63,10 +70,10 @@ handleCancel=(data)=>{
 
 // handling edit category
   editUser=id=>{
-    let newList =this.state.userData.filter(user=>user.id!==id)
-    const selectedItem = this.state.userData.find(item=>item.id === id)
+    let newList =this.state.dataList.filter(user=>user.id!==id)
+    const selectedItem = this.state.dataList.find(item=>item.id === id)
     this.setState({
-      userData:newList,
+      dataList:newList,
       user:selectedItem,
       editData:true
     })
@@ -74,7 +81,6 @@ handleCancel=(data)=>{
   }
 
   closePopup = ()=>{
-    console.log("hello")
     this.setState({isPopup:!this.state.isPopup})
   }
   showCategory = ()=>{
@@ -83,21 +89,25 @@ handleCancel=(data)=>{
   }
 
 
-// async componentDidMount(){
-//   this.setState({isLoading:!this.state.isLoading})
-//    try{
-//     const response = await fetch(`https://cors-anywhere.herokuapp.com/https://kjosk-sample-api.azurewebsites.net/api/Foundation`);
-//     const data = await response.json();
-//       console.log("data",data)  
-//      this.setState({foundationData:data,isLoading:false})
-//    }catch(error){
-//      console.log("something went wrong!!!")
-//    }
-//  }
+async componentDidMount(){
+  this.setState({isLoading:!this.state.isLoading})
+   try{
+    const response = await fetch(`https://cors-anywhere.herokuapp.com/https://kjosk-sample-api.azurewebsites.net/api/Foundation`);
+    const data = await response.json();
+     this.setState({dataList:data,isLoading:false})
+   }catch(error){
+     console.log("something went wrong!!!")
+   }
+ }
+
   render(){ 
    
     return (
-        
+     <> 
+     <button className="foundation" onClick={this.showCategory}>Foundation List</button> 
+     {this.state.showComp?
+    <div>
+     <h2 className='title'>Foundation List</h2> 
     <div className="row">
       <div className="five columns">
       {this.state.editData?( 
@@ -129,7 +139,7 @@ handleCancel=(data)=>{
       <div className="seven columns display">
         <h2>View Foundation</h2>
         <FoundationTable
-         userData={this.state.foundationData} 
+         userData={this.state.dataList} 
          deleteUser={this.deleteUser} 
          editUser={this.editUser} 
          />
@@ -140,7 +150,10 @@ handleCancel=(data)=>{
         null
       }
       </div>
-     
+    
+      </div>:null
+    }
+     </>
     );
   }
 }

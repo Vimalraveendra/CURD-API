@@ -23,7 +23,19 @@ h2 {
 button {
   margin-bottom: 0;
 }
+.foundation {
+  background-color: burlywood;
+  width: 100%;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  font-family: "Cinzel", serif;
+}
 
+/* @media (max-width: 400px) {
+  .container {
+    width: 85%;
+  }
+} */
 /* .App-logo {
   height: 40vmin;
   pointer-events: none;
