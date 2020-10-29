@@ -1,0 +1,65 @@
+/* The Modal (background) */
+.modal {
+  display: block;
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  padding-top: 50px;
+}
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fff;
+  margin: 7% auto 15% auto; /* 7% from the top, 15% from the bottom and centered */
+  border: 1px solid #888;
+  width: 40%; /* Could be more or less, depending on screen size */
+}
+/* Add padding and center-align text to the container */
+.container {
+  padding: 16px;
+  text-align: center;
+}
+
+/* Clear floats */
+.clearFix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+/* style button */
+.close {
+  background-color: #4caf50;
+  color: white;
+  padding: 0.1rem 0.6rem;
+  margin: 0.6rem 0;
+  border: none;
+  cursor: pointer;
+  width: 60%;
+  opacity: 0.9;
+  font-size: 1.5rem;
+  outline: none;
+}
+.close:hover {
+  opacity: 1;
+}
+
+.container h3 {
+  color: red;
+}
+
+.container p {
+  font-size: 1.8rem;
+}
+
+/* Change styles for cancel button , delete button & modal-content on extra small screens */
+@media screen and (max-width: 500px) {
+  .close {
+    width: 100%;
+  }
+  .modal-content {
+    width: 70%;
+  }
+}
