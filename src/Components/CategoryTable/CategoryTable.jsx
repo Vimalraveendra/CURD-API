@@ -22,8 +22,8 @@ const CategoryTable = ({userData,deleteUser,editUser}) => {
                                 <td>{description}</td>
                                 <td>
 
-                                    <button className="edit" onClick={()=>editUser(id)}><i class="far fa-edit"></i></button>
-                                    <button className="delete" onClick={()=>deleteUser(id)}><i class="far fa-trash-alt"></i></button>
+                                    <button className="edit" onClick={()=>editUser(id)}><i className="far fa-edit"></i></button>
+                                    <button className="delete" onClick={()=>deleteUser(id)}><i className="far fa-trash-alt"></i></button>
                                 </td>
                             </tr>
                         )
