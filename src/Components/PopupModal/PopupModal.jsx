@@ -6,7 +6,7 @@ const PopupModal=({closePopup})=>{
     <div className="modal-content" >
        <div className="container">
        <h3>Warning </h3>
-       <p>Please provide a name & description not in the list</p>
+       <p>Please provide a Field Name other than  in the list</p>
          <div className="clearFix">
            <button className="close" type="button" onClick={closePopup}>Close</button>
            

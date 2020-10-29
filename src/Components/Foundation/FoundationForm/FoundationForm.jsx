@@ -6,7 +6,7 @@ const FoundationForm = ({addUserCategory,handleChange,user,editData,handleCancel
 
     const handleSubmit=(e)=>{
         e.preventDefault();
-     if(user.name&& user.description){
+     if(user.name&& user.shortDescription  && user.foundationCategoryId){
          addUserCategory(user)  
          
      }
@@ -17,11 +17,11 @@ const FoundationForm = ({addUserCategory,handleChange,user,editData,handleCancel
             <label>Name</label>
             <input className="u-full-width" type="text" name="name" value={user.name} onChange={handleChange} />
             <label>Description</label>
-            <input className="u-full-width" type="text" name="description" value={user.description} onChange={handleChange}/>
+            <input className="u-full-width" type="text" name="shortDescription" value={user.shortDescription} onChange={handleChange}/>
             <label>Html Description</label>
-            <input className="u-full-width" type="text" name="description" value={user.description} onChange={handleChange}/>
-            <label>Category Id</label>  
-            <input className="u-full-width" type="text" name="description" value={user.description} onChange={handleChange}/>
+            <input className="u-full-width" type="text" name="htmlDescription" value={user.htmlDescription} onChange={handleChange}/>
+            <label>CategoryId</label>  
+            <input className="u-full-width" type="number"  name="foundationCategoryId" value={user.foundationCategoryId} onChange={handleChange}/>
             {editData?(
             <div>
             <button className="button-primary" type="submit"  onClick={handleSubmit}>Edit User</button>
