@@ -31,10 +31,8 @@ class App extends React.Component{
   }
   this.setState({user:{id:null,name:'',description:''}})
 }
+this.setState({userData:[...newList,user],user:{id:null,name:'',description:''},editData:false})
 
-if(true) {
-this.setState({userData:[...newList,user],user:{id:null,name:'',description:''}})
-}
   }
 
   // Deleting category list based on id
@@ -73,7 +71,7 @@ handleCancel=(data)=>{
 //    try{
 //     const response = await fetch(`https://cors-anywhere.herokuapp.com/https://kjosk-sample-api.azurewebsites.net/api/FoundationCategory`);
 //     const data = await response.json();
-//     console.log('data',data)
+   
 //      this.setState({userData:data})
 //    }catch(error){
 //      console.log("something went wrong!!!")
@@ -106,16 +104,19 @@ handleCancel=(data)=>{
                   addUserCategory={this.addUserCategory} 
                   handleChange={this.handleChange} 
                   user={this.state.user}
-                  userData={this.state.userData}
                    />
                   
                   </div>
                   )
           }
           </div>
-          <div className="seven columns">
+          <div className="seven columns display">
             <h2>View Category</h2>
-            <CategoryTable userData={this.state.userData} deleteUser={this.deleteUser} editUser={this.editUser} />
+            <CategoryTable
+             userData={this.state.userData} 
+             deleteUser={this.deleteUser} 
+             editUser={this.editUser} 
+             />
           </div>
         </div>
       </div>
