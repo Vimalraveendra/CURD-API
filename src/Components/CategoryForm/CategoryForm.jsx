@@ -1,7 +1,7 @@
 import React from 'react';
-
-const CategoryForm = ({addUserCategory,handleChange,user,editData,handleCancel,userData}) => {
-   
+import "./CategoryForm.css"
+const CategoryForm = ({addUserCategory,handleChange,user,editData,handleCancel}) => {
+ 
     
     // const initialUser = {id: null, name: '', description: ''};
 
@@ -37,7 +37,7 @@ const CategoryForm = ({addUserCategory,handleChange,user,editData,handleCancel,u
             {editData?(
             <div>
             <button className="button-primary" type="submit"  onClick={handleSubmit}>Edit User</button>
-            <button className="edit" type="button" onClick={()=>handleCancel(user)} >cancel</button>
+            <button className="cancel" type="button" onClick={()=>handleCancel(user)} >cancel</button>
             </div>
             ):(
                 <button className="button-primary" type="submit" onClick={handleSubmit}>Add User</button>
