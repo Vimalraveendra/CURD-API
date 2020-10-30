@@ -6,24 +6,7 @@ import FoundationTable from '../FoundationTable/FoundationTable'
 
 class FoundationHome extends React.Component{
   state={
-    dataList:[
-      {
-      id: 131,
-      name: "dff1",
-      shortDescription: "erf",
-      htmlDescription: "fvcf",
-      foundationCategoryId: 9,
-      isGlobal: true
-      },
-      {
-      id: 132,
-      name: "4r34",
-      shortDescription: "fvfvfvdf",
-      htmlDescription: "freferf",
-      foundationCategoryId: 8,
-      isGlobal: false
-      }
-      ],
+    dataList:[],
     editData:false,
     isLoading:false,
     isPopup:false,
@@ -136,16 +119,16 @@ handleCancel=()=>{
   }
 
 // fetching data from server
-// async componentDidMount(){
-//   this.setState({isLoading:!this.state.isLoading})
-//    try{
-//     const response = await fetch(`https://cors-anywhere.herokuapp.com/https://kjosk-sample-api.azurewebsites.net/api/Foundation`);
-//     const data = await response.json();
-//      this.setState({dataList:data,isLoading:false})
-//    }catch(error){
-//      console.log("something went wrong!!!")
-//    }
-//  }
+async componentDidMount(){
+  this.setState({isLoading:!this.state.isLoading})
+   try{
+    const response = await fetch(`https://cors-anywhere.herokuapp.com/https://kjosk-sample-api.azurewebsites.net/api/Foundation`);
+    const data = await response.json();
+     this.setState({dataList:data,isLoading:false})
+   }catch(error){
+     console.log("something went wrong!!!")
+   }
+ }
 
   render(){ 
     const {editData,isLoading,showComp,dataList,user,isPopup,popupText} = this.state;
