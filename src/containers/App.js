@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.scss';
-import UserData from '../Components/UserData/UserData';
+// import UserData from '../Components/UserData/UserData';
 import CategoryTable from '../Components/FoundationCategory/CategoryTable/CategoryTable'
 import CategoryForm from '../Components/FoundationCategory/CategoryForm/CategoryForm'
 import PopupModal from '../Components/PopupModal/PopupModal'
@@ -9,7 +9,7 @@ import FoundationHome from '../Components/Foundation/FoundationHome/FoundationHo
 
 class App extends React.Component{
   state={
-    userData:UserData,
+    userData:[],
     editData:false,
     isLoading:false,
     isPopup:false,
@@ -115,16 +115,16 @@ handleCancel=()=>{
   }
 
 // making APi call
-//  async componentDidMount(){
-//   this.setState({isLoading:!this.state.isLoading})
-//    try{
-//     const response = await fetch(`https://cors-anywhere.herokuapp.com/https://kjosk-sample-api.azurewebsites.net/api/FoundationCategory`);
-//     const data = await response.json();
-//      this.setState({userData:data,isLoading:false})
-//    }catch(error){
-//      console.log("something went wrong!!!")
-//    }
-//  }
+ async componentDidMount(){
+  this.setState({isLoading:!this.state.isLoading})
+   try{
+    const response = await fetch(`https://cors-anywhere.herokuapp.com/https://kjosk-sample-api.azurewebsites.net/api/FoundationCategory`);
+    const data = await response.json();
+     this.setState({userData:data,isLoading:false})
+   }catch(error){
+     console.log("something went wrong!!!")
+   }
+ }
 
   render(){ 
    const {editData,isLoading,showComp,userData,user,isPopup,popupText} = this.state;
