@@ -1,20 +1,19 @@
 import React from 'react';
-import './App.css';
-import UserData from '../Components/UserData/UserData';
+import './App.scss';
+// import UserData from '../Components/UserData/UserData';
 import CategoryTable from '../Components/FoundationCategory/CategoryTable/CategoryTable'
 import CategoryForm from '../Components/FoundationCategory/CategoryForm/CategoryForm'
 import PopupModal from '../Components/PopupModal/PopupModal'
-// import FoundationForm from '../Components/Foundation/FoundationForm/FoundationForm'
-// import FoundationTable from '../Components/Foundation/FoundationTable/FoundationTable'
 import FoundationHome from '../Components/Foundation/FoundationHome/FoundationHome'
 
 
 class App extends React.Component{
   state={
-    userData:UserData,
+    userData:[],
     editData:false,
     isLoading:false,
     isPopup:false,
+    popupText:'',
     showComp:false,
     user:{
       id:null,
@@ -25,15 +24,24 @@ class App extends React.Component{
  
   // adding new category list
   addUserCategory=(user)=>{ 
+  
   const newList = [...this.state.userData]
 
+  if(user.name&& user.description){
+ 
+  let id = [Math.max(...newList.map(num=>num.id))]
+
+  if(id[0]===-Infinity){
+    user.id=newList.length+1;
+  }
+
   if(!user.id){
-  user.id =newList.length+1;
+  user.id =id[0]+1;
   }
     
   for(let data of newList){
   if(data.name ===user.name){
-    this.setState({isPopup:true})
+    this.setState({isPopup:true,popupText:"Please provide a Field Name other than  in the list"})
     return true
   }
   
@@ -42,7 +50,10 @@ class App extends React.Component{
 if(user.name.length>=3&&user.name.length<=128&&user.description.length<=512){
 this.setState({userData:[...newList,user],user:{id:null,name:'',description:''},editData:false})
 }
-  }
+  }else{
+    this.setState({isPopup:true,popupText:"UserName & Description should not be empty"})
+  } 
+}
 
   // Deleting category list based on id
   deleteUser=id=>{
@@ -76,59 +87,50 @@ handleCancel=(data)=>{
     
   }
 
+  // closing the PopupModal window
   closePopup = ()=>{
-    console.log("hello")
     this.setState({isPopup:!this.state.isPopup})
   }
+  // showing component based on the button clicking
   showCategory = ()=>{
     this.setState({showComp:!this.state.showComp})
 
   }
 
-//  async componentDidMount(){
-//   this.setState({isLoading:!this.state.isLoading})
-//    try{
-//     const response = await fetch(`https://cors-anywhere.herokuapp.com/https://kjosk-sample-api.azurewebsites.net/api/FoundationCategory`);
-//     const data = await response.json();
-//       console.log("data",data)  
-//      this.setState({userData:data,isLoading:false})
-//    }catch(error){
-//      console.log("something went wrong!!!")
-//    }
-//  }
-// async componentDidMount(){
-//   this.setState({isLoading:!this.state.isLoading})
-//    try{
-//     const response = await fetch(`https://cors-anywhere.herokuapp.com/https://kjosk-sample-api.azurewebsites.net/api/Foundation`);
-//     const data = await response.json();
-//       console.log("data",data)  
-//      this.setState({foundationData:data,isLoading:false})
-//    }catch(error){
-//      console.log("something went wrong!!!")
-//    }
-//  }
+// making APi call
+ async componentDidMount(){
+  this.setState({isLoading:!this.state.isLoading})
+   try{
+    const response = await fetch(`https://cors-anywhere.herokuapp.com/https://kjosk-sample-api.azurewebsites.net/api/FoundationCategory`);
+    const data = await response.json();
+     this.setState({userData:data,isLoading:false})
+   }catch(error){
+     console.log("something went wrong!!!")
+   }
+ }
+
   render(){ 
-   
+   const {editData,isLoading,showComp,userData,user,isPopup,popupText} = this.state;
     return (
       <div className="container">
       <h1> CRUD APP</h1>
       <button className="foundation" onClick={this.showCategory}>Foundation Category</button>
-      {this.state.showComp?
+      {showComp?
       <div>
       <h2 className='title'>Foundation Category List</h2>
       {
-        this.state.isLoading?
+        isLoading?
         <h1 className="loading">Loading....</h1>:
         <div className="row">
          <div className="five columns">
-         {this.state.editData?( 
+         {editData?( 
              <div>
              <h2>Edit Category</h2>
                <CategoryForm
                 addUserCategory={this.addUserCategory} 
                 handleChange={this.handleChange}
-                 user={this.state.user} 
-                 editData={this.state.editData} 
+                 user={user} 
+                 editData={editData} 
                  handleCancel={this.handleCancel} 
                 
                  />
@@ -140,7 +142,7 @@ handleCancel=(data)=>{
                  <CategoryForm 
                  addUserCategory={this.addUserCategory} 
                  handleChange={this.handleChange} 
-                 user={this.state.user}
+                 user={user}
                   />
                  
                  </div>
@@ -150,7 +152,7 @@ handleCancel=(data)=>{
          <div className="seven columns display">
            <h2>View Category</h2>
            <CategoryTable
-            userData={this.state.userData} 
+            userData={userData} 
             deleteUser={this.deleteUser} 
             editUser={this.editUser} 
             />
@@ -158,8 +160,8 @@ handleCancel=(data)=>{
        </div>
        
       }{
-        this.state.isPopup?
-        <PopupModal closePopup={this.closePopup}/>:
+        isPopup?
+        <PopupModal closePopup={this.closePopup} popupText={popupText}/>:
         null
       }
     
@@ -168,7 +170,7 @@ handleCancel=(data)=>{
       }
       
       
-      <div className="row"><FoundationHome/></div>
+      <div className="row"><FoundationHome  handleChange={this.handleChange}/></div>
       
      
       </div>

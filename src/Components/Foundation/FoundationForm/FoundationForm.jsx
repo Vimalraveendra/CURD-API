@@ -1,15 +1,13 @@
 import React from 'react';
-import "./FoundationForm.css"
+import "./FoundationForm.scss"
 const FoundationForm = ({addUserCategory,handleChange,user,editData,handleCancel}) => {
 
 
 
     const handleSubmit=(e)=>{
         e.preventDefault();
-     if(user.name&& user.shortDescription  && user.foundationCategoryId){
-         addUserCategory(user)  
+         addUserCategory(user) 
          
-     }
     }
 
     return (
@@ -25,7 +23,7 @@ const FoundationForm = ({addUserCategory,handleChange,user,editData,handleCancel
             {editData?(
             <div>
             <button className="button-primary" type="submit"  onClick={handleSubmit}>Edit User</button>
-            <button className="cancel" type="button" onClick={()=>handleCancel(user)} >cancel</button>
+            <button className="cancel" type="button" onClick={()=>handleCancel({user})} >cancel</button>
             </div>
             ):(
                 <button className="button-primary" type="submit" onClick={handleSubmit}>Add User</button>

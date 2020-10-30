@@ -1,5 +1,5 @@
 import React from 'react';
-import "./CategoryForm.css"
+import "./CategoryForm.scss"
 const CategoryForm = ({addUserCategory,handleChange,user,editData,handleCancel}) => {
  
     
@@ -21,10 +21,8 @@ const CategoryForm = ({addUserCategory,handleChange,user,editData,handleCancel})
 
     const handleSubmit=(e)=>{
         e.preventDefault();
-     if(user.name&& user.description){
          addUserCategory(user)  
          
-     }
     }
 
     return (
