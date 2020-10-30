@@ -14,7 +14,7 @@ const CategoryTable = ({userData,deleteUser,editUser}) => {
             </thead>
             <tbody>
                 { userData.length > 0 ? (
-                    userData.map(({id,name,description})=> {
+                    userData.map(({id,name,description},index)=> {
                         return (
                             <tr key={id}>
                                 <td>{id}</td>
@@ -22,7 +22,7 @@ const CategoryTable = ({userData,deleteUser,editUser}) => {
                                 <td>{description}</td>
                                 <td>
 
-                                    <button className="edit" onClick={()=>editUser(id)}><i className="far fa-edit"></i></button>
+                                    <button className="edit" onClick={()=>editUser(index,id)}><i className="far fa-edit"></i></button>
                                     <button className="delete" onClick={()=>deleteUser(id)}><i className="far fa-trash-alt"></i></button>
                                 </td>
                             </tr>
