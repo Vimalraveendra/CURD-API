@@ -10,7 +10,9 @@ class FoundationHome extends React.Component{
     editData:false,
     isLoading:false,
     isPopup:false,
+    popupText:'',
     showComp:false,
+  
     user:{
       id:null,
       name:'',
@@ -23,11 +25,18 @@ class FoundationHome extends React.Component{
  
   // adding new category list
   addUserCategory=(user)=>{ 
-     
+    if(user.name&& user.shortDescription  && user.foundationCategoryId>0){
+      
   const newList = [...this.state.dataList]
   let id = [Math.max(...newList.map(num=>num.id))]
+  
+  if(id[0]===-Infinity){
+    user.id=newList.length+1;
+  }
+
   user.isGlobal=true;
   user.foundationCategoryId= Number(user.foundationCategoryId)
+
   if(!user.id){
   user.id =id[0]+1;
 
@@ -36,17 +45,20 @@ class FoundationHome extends React.Component{
    
   for(let data of newList){
   if(data.name ===user.name){
-    this.setState({isPopup:true})
+    this.setState({isPopup:true,popupText:"Please provide a Field Name other than  in the list"})
     return true
   }
   
 }
-
+    
 if(user.name.length>=3&&user.name.length<=128&&user.shortDescription.length<=512){
 this.setState({dataList:[...newList,user],user:{id:null,name:'',shortDescription:'',htmlDescription:'',
 foundationCategoryId:'',isGlobal:false},editData:false})
 }
+  }else{
+    this.setState({isPopup:true,popupText:"UserName & Description should not be empty & CategoryId greater than one "})
   }
+}
 
   // Deleting category list based on id
   deleteUser=id=>{
@@ -65,7 +77,7 @@ foundationCategoryId:'',isGlobal:false},editData:false})
 // handling when user cancel the edit category
 handleCancel=(data)=>{
   this.addUserCategory(data)
-  this.setState({editData:false})    
+  this.setState({editData:false,isEditing:!this.state.isEditing})    
 }
 
 // handling edit category
@@ -88,7 +100,7 @@ handleCancel=(data)=>{
 
   }
 
-
+// fetching data from server
 async componentDidMount(){
   this.setState({isLoading:!this.state.isLoading})
    try{
@@ -101,23 +113,26 @@ async componentDidMount(){
  }
 
   render(){ 
-   
+    const {editData,isLoading,showComp,dataList,user,isPopup,popupText} = this.state;
     return (
-     <> 
+        <>
      <button className="foundation" onClick={this.showCategory}>Foundation List</button> 
-     {this.state.showComp?
+     {showComp?
     <div>
      <h2 className='title'>Foundation List</h2> 
+     {
+      isLoading?
+      <h1 className="loading">Loading....</h1>:
     <div className="row">
       <div className="five columns">
-      {this.state.editData?( 
+      {editData?( 
           <div>
           <h2>Edit Foundation</h2>
             <FoundationForm
              addUserCategory={this.addUserCategory} 
              handleChange={this.handleChange}
-              user={this.state.user} 
-              editData={this.state.editData} 
+              user={user} 
+              editData={editData} 
               handleCancel={this.handleCancel} 
              
               />
@@ -129,7 +144,8 @@ async componentDidMount(){
               <FoundationForm 
               addUserCategory={this.addUserCategory} 
               handleChange={this.handleChange} 
-              user={this.state.user}
+              user={user}
+      
                />
               
               </div>
@@ -139,18 +155,18 @@ async componentDidMount(){
       <div className="seven columns display">
         <h2>View Foundation</h2>
         <FoundationTable
-         userData={this.state.dataList} 
+         userData={dataList} 
          deleteUser={this.deleteUser} 
          editUser={this.editUser} 
          />
       </div>
       {
-        this.state.isPopup?
-        <PopupModal closePopup={this.closePopup}/>:
+        isPopup?
+        <PopupModal closePopup={this.closePopup} popupText={popupText}/>:
         null
       }
       </div>
-    
+     }
       </div>:null
     }
      </>

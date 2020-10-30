@@ -1,5 +1,5 @@
 import React from 'react';
-import './CategoryTable.css'
+import './CategoryTable.scss'
 const CategoryTable = ({userData,deleteUser,editUser}) => {
     
     return (
