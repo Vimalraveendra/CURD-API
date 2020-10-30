@@ -6,13 +6,31 @@ import FoundationTable from '../FoundationTable/FoundationTable'
 
 class FoundationHome extends React.Component{
   state={
-    dataList:[],
+    dataList:[
+      {
+      id: 131,
+      name: "dff1",
+      shortDescription: "erf",
+      htmlDescription: "fvcf",
+      foundationCategoryId: 9,
+      isGlobal: true
+      },
+      {
+      id: 132,
+      name: "4r34",
+      shortDescription: "fvfvfvdf",
+      htmlDescription: "freferf",
+      foundationCategoryId: 8,
+      isGlobal: false
+      }
+      ],
     editData:false,
     isLoading:false,
     isPopup:false,
     popupText:'',
     showComp:false,
-  
+    index:'',
+    action:0,
     user:{
       id:null,
       name:'',
@@ -52,8 +70,17 @@ class FoundationHome extends React.Component{
 }
     
 if(user.name.length>=3&&user.name.length<=128&&user.shortDescription.length<=512){
-this.setState({dataList:[...newList,user],user:{id:null,name:'',shortDescription:'',htmlDescription:'',
+
+  if(this.state.action!==0){
+    let index = this.state.index;
+    newList[index]=user;
+   this.setState({dataList:newList,user:{id:null,name:'',shortDescription:'',htmlDescription:'',
+   foundationCategoryId:'',isGlobal:false},editData:false,action:0})
+}else{
+  let newUser =[...newList,user]
+this.setState({dataList:newUser,user:{id:null,name:'',shortDescription:'',htmlDescription:'',
 foundationCategoryId:'',isGlobal:false},editData:false})
+}
 }
   }else{
     this.setState({isPopup:true,popupText:"UserName & Description should not be empty & CategoryId greater than one "})
@@ -75,20 +102,28 @@ foundationCategoryId:'',isGlobal:false},editData:false})
 }
 
 // handling when user cancel the edit category
-handleCancel=(data)=>{
-  this.addUserCategory(data)
-  this.setState({editData:false,isEditing:!this.state.isEditing})    
+handleCancel=()=>{ 
+  this.setState({
+    editData:false,
+    action:0,
+     index:'',
+    user:{id:null,name:'',shortDescription:'',htmlDescription:'',
+    foundationCategoryId:'',isGlobal:false}})    
 }
+  
+
 
 // handling edit category
-  editUser=id=>{
-    let newList =this.state.dataList.filter(user=>user.id!==id)
+  editUser=(id,index)=>{
+    // let newList =this.state.dataList.filter(user=>user.id!==id)
     const selectedItem = this.state.dataList.find(item=>item.id === id)
     this.setState({
-      dataList:newList,
+      index:index,
+      action:1,
       user:selectedItem,
       editData:true
     })
+
     
   }
 
@@ -101,16 +136,16 @@ handleCancel=(data)=>{
   }
 
 // fetching data from server
-async componentDidMount(){
-  this.setState({isLoading:!this.state.isLoading})
-   try{
-    const response = await fetch(`https://cors-anywhere.herokuapp.com/https://kjosk-sample-api.azurewebsites.net/api/Foundation`);
-    const data = await response.json();
-     this.setState({dataList:data,isLoading:false})
-   }catch(error){
-     console.log("something went wrong!!!")
-   }
- }
+// async componentDidMount(){
+//   this.setState({isLoading:!this.state.isLoading})
+//    try{
+//     const response = await fetch(`https://cors-anywhere.herokuapp.com/https://kjosk-sample-api.azurewebsites.net/api/Foundation`);
+//     const data = await response.json();
+//      this.setState({dataList:data,isLoading:false})
+//    }catch(error){
+//      console.log("something went wrong!!!")
+//    }
+//  }
 
   render(){ 
     const {editData,isLoading,showComp,dataList,user,isPopup,popupText} = this.state;

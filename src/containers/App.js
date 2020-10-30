@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.scss';
-// import UserData from '../Components/UserData/UserData';
+import UserData from '../Components/UserData/UserData';
 import CategoryTable from '../Components/FoundationCategory/CategoryTable/CategoryTable'
 import CategoryForm from '../Components/FoundationCategory/CategoryForm/CategoryForm'
 import PopupModal from '../Components/PopupModal/PopupModal'
@@ -9,12 +9,14 @@ import FoundationHome from '../Components/Foundation/FoundationHome/FoundationHo
 
 class App extends React.Component{
   state={
-    userData:[],
+    userData:UserData,
     editData:false,
     isLoading:false,
     isPopup:false,
     popupText:'',
     showComp:false,
+    index:'',
+    action:0,
     user:{
       id:null,
       name:'',
@@ -24,12 +26,14 @@ class App extends React.Component{
  
   // adding new category list
   addUserCategory=(user)=>{ 
+ 
+  const newList = this.state.userData;
   
-  const newList = [...this.state.userData]
-
+ 
   if(user.name&& user.description){
  
   let id = [Math.max(...newList.map(num=>num.id))]
+ 
 
   if(id[0]===-Infinity){
     user.id=newList.length+1;
@@ -38,17 +42,25 @@ class App extends React.Component{
   if(!user.id){
   user.id =id[0]+1;
   }
+
+
     
   for(let data of newList){
   if(data.name ===user.name){
     this.setState({isPopup:true,popupText:"Please provide a Field Name other than  in the list"})
     return true
   }
-  
 }
 
 if(user.name.length>=3&&user.name.length<=128&&user.description.length<=512){
-this.setState({userData:[...newList,user],user:{id:null,name:'',description:''},editData:false})
+   if(this.state.action!==0){
+    let index = this.state.index;
+    newList[index]=user;
+   this.setState({userData:newList,user:{id:null,name:'',description:''},editData:false,action:0})
+}else{
+  let newUser =[...newList,user]
+this.setState({userData:newUser,user:{id:null,name:'',description:''},editData:false})
+}
 }
   }else{
     this.setState({isPopup:true,popupText:"UserName & Description should not be empty"})
@@ -70,21 +82,26 @@ this.setState({userData:[...newList,user],user:{id:null,name:'',description:''},
 }
 
 // handling when user cancel the edit category
-handleCancel=(data)=>{
-  this.addUserCategory(data)
-  this.setState({editData:false})    
+handleCancel=()=>{
+  this.setState({
+    editData:false,
+    action:0,
+     index:'',
+    user:{id:null, name:'',description:''}})    
 }
 
 // handling edit category
-  editUser=id=>{
-    let newList =this.state.userData.filter(user=>user.id!==id)
+  editUser=(index,id)=>{
+  
+    // let newList =this.state.userData.filter(user=>user.id!==id)
     const selectedItem = this.state.userData.find(item=>item.id === id)
     this.setState({
-      userData:newList,
+      index:index,
+      action:1,
       user:selectedItem,
       editData:true
     })
-    
+
   }
 
   // closing the PopupModal window
@@ -98,16 +115,16 @@ handleCancel=(data)=>{
   }
 
 // making APi call
- async componentDidMount(){
-  this.setState({isLoading:!this.state.isLoading})
-   try{
-    const response = await fetch(`https://cors-anywhere.herokuapp.com/https://kjosk-sample-api.azurewebsites.net/api/FoundationCategory`);
-    const data = await response.json();
-     this.setState({userData:data,isLoading:false})
-   }catch(error){
-     console.log("something went wrong!!!")
-   }
- }
+//  async componentDidMount(){
+//   this.setState({isLoading:!this.state.isLoading})
+//    try{
+//     const response = await fetch(`https://cors-anywhere.herokuapp.com/https://kjosk-sample-api.azurewebsites.net/api/FoundationCategory`);
+//     const data = await response.json();
+//      this.setState({userData:data,isLoading:false})
+//    }catch(error){
+//      console.log("something went wrong!!!")
+//    }
+//  }
 
   render(){ 
    const {editData,isLoading,showComp,userData,user,isPopup,popupText} = this.state;

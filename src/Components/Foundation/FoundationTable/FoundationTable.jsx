@@ -16,7 +16,7 @@ const FoundationTable = ({userData,deleteUser,editUser}) => {
             </thead>
             <tbody>
                 { userData.length > 0 ? (
-                    userData.map(({id,name,shortDescription,htmlDescription,foundationCategoryId})=> {
+                    userData.map(({id,name,shortDescription,htmlDescription,foundationCategoryId},index)=> {
                         return (
                             <tr key={id}>
                                 <td>{id}</td>
@@ -25,7 +25,7 @@ const FoundationTable = ({userData,deleteUser,editUser}) => {
                                 <td>{htmlDescription}</td>
                                 <td>{foundationCategoryId}</td>
                                 <td>
-                                    <button className="edit" onClick={()=>editUser(id)}><i className="far fa-edit"></i></button>
+                                    <button className="edit" onClick={()=>editUser(id,index)}><i className="far fa-edit"></i></button>
                                     <button className="delete" onClick={()=>deleteUser(id)}><i className="far fa-trash-alt"></i></button>
                                 </td>
                             </tr>
