@@ -1,4 +1,11 @@
-React to run the project.
+
+
+# General info
+This project is built with React for CURD application.
+
+
+# Setup
+To run this project, install it locally using npm.
 
 1.Clone this repo.
 
@@ -8,7 +15,7 @@ React to run the project.
 
 4.Run yarn start.
 
-Application Setup:
+## Application Setup:
 
 1.created create-react-app boiler plate.
 2.created reusable component folders.
@@ -20,7 +27,7 @@ Application Setup:
 8.Created PopupModal window. After the fields are filled,once the user clicks on add User button, if the name field data is already existing in list, a warning popup appears.
 
 
-Solution build with:
+## Solution build with:
 ● React components & Redux.
 ● ES2015 & ES2016.
 ● Code linter and formatter.
